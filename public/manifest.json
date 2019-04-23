@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Heart beat",
+  "name": "Heart beat app",
   "icons": [
     {
       "src": "favicon.ico",

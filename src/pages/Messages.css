@@ -1,0 +1,37 @@
+.container {
+  height: 350px;
+  width: 90%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  margin: auto;
+  padding: 10px;
+  flex-direction: row;
+}
+.footer {
+  position: absolute;
+  border-color: black;
+  border-top: 0px;
+  border-bottom-width: 1px;
+  border-left: 0px;
+  border-right: 0px;
+  height: 40px;
+  border-style: solid;
+  display: block;
+  width: 100%;
+  top: 0;
+}
+.homeButton {
+  position: absolute;
+  right: 90px;
+  padding: 5px;
+  top: 5px;
+  cursor: pointer;
+}
+.logout {
+  position: absolute;
+  right: 20px;
+  padding: 5px;
+  top: 5px;
+  cursor: pointer;
+}

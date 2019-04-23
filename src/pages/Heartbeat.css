@@ -1,0 +1,94 @@
+.container {
+  height: 350px;
+  width: 90%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  margin: auto;
+  padding: 10px;
+  flex-direction: row;
+}
+.containerTab {
+  width: 90%;
+  margin: auto;
+  margin-bottom: 10px;
+}
+.span {
+  cursor: pointer;
+  border-width: 1px;
+  padding: 10px;
+  font-size: 12px;
+  border-style: solid;
+  border-color: black;
+}
+.listContainer {
+  height: 340px;
+  width: 20%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  display: inline-flex;
+  position: absolute;
+}
+.listItem {
+  padding: 5px;
+  font-size: 14px;
+  height: 20px;
+  text-align: center;
+  width: 100%;
+  background-color: aqua;
+}
+.heartbeatContainer {
+  display: inline-flex;
+  flex-direction: column;
+  width: 70%;
+  margin-left: 25%;
+  height: 340px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.ritmograma {
+  margin-bottom: 50px;
+  font-size: 25px;
+}
+.analizeButton {
+  margin-top: 20px;
+  width: 200px;
+  padding: 10px;
+}
+.inputTitle {
+  font-size: 25px;
+}
+.fileInput {
+  cursor: pointer;
+  padding: 20px;
+  margin-top: 100px;
+  text-align: center;
+  justify-content: center;
+}
+.footer {
+  position: absolute;
+  border-color: black;
+  border-top: 0px;
+  border-bottom-width: 1px;
+  border-left: 0px;
+  border-right: 0px;
+  height: 40px;
+  border-style: solid;
+  display: block;
+  width: 100%;
+  top: 0;
+}
+.messageButton {
+  position: absolute;
+  right: 100px;
+  cursor: pointer;
+}
+.logout {
+  position: absolute;
+  right: 20px;
+  padding: 5px;
+  top: 5px;
+  cursor: pointer;
+}

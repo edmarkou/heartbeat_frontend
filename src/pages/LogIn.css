@@ -1,0 +1,52 @@
+.Header {
+  padding-top: 30px;
+  padding-bottom: 20px;
+  text-align: center;
+}
+.LogIn {
+  align-items: center;
+}
+.logInContainer {
+  width: 400px;
+  border: 1px;
+  border-color: black;
+  border-style: solid;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: auto;
+}
+.inputContainer {
+  height: 25px;
+  flex-direction: row;
+  width: 380px;
+  margin-bottom: 10px;
+}
+.title {
+  width: 100px;
+  height: 25px;
+  display: inline-flex;
+}
+.text {
+  margin-left: auto;
+}
+.input {
+  height: 25px;
+  width: 250px;
+  border-color: black;
+  border-width: 1px;
+  margin-left: 10px;
+  padding-left: 10px;
+}
+.buttonContainer {
+  text-align: center;
+  margin-top: 20px;
+}
+.loginButton {
+  padding: 10px;
+  font-size: 14px;
+}
+.button {
+  font-size: 14px;
+}
