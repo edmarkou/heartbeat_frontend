@@ -1,10 +1,17 @@
+import { LOGIN, LOGOUT } from '../actions/userActionTypes';
+
 const initialState = {
-  name: 'e',
-  userType: 'expert'
+  name: '',
+  userType: ''
 }
 
-const reducer = (state = initialState, action) => {
-  return state;
+export default function reducer(state = initialState, action) {
+  switch(action.type) {
+    case LOGIN: 
+      return action.payload;
+    case LOGOUT: 
+      return action.payload;
+    default: 
+      return state;
+  }
 }
-
-export default reducer;

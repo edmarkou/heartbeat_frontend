@@ -1,5 +1,16 @@
-export const VisibilityFilters = {
-  SHOW_ALL: 'SHOW_ALL',
-  SHOW_COMPLETED: 'SHOW_COMPLETED',
-  SHOW_ACTIVE: 'SHOW_ACTIVE'
+export function login(user) {
+  return {
+    type: 'LOGIN',
+    payload: user
+  }
+}
+
+export function logout() {
+  return {
+    type: 'LOGOUT',
+    payload: {
+      name: '', 
+      userType: ''
+    }
+  }
 }

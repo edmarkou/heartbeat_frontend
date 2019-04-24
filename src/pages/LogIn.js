@@ -1,15 +1,53 @@
 import React, { Component } from 'react';
 import './LogIn.css';
 import heart from '../assets/images/heart.png';
+import { Redirect } from 'react-router-dom';
+import { login } from '../actions/userActions';
+import { connect } from 'react-redux';
+import $ from 'jquery';
 
-export default class LogIn extends Component {
+class LogIn extends Component {
   constructor(props){
     super(props);
 
     this.state = {
       name: '',
       surname: '',
-      password: ''
+      password: '',
+      logIn: false,
+    }
+  }
+
+  renderRedirect = () => {
+    if (this.state.logIn) {
+      return <Redirect to='/'/>
+    }
+  }
+
+  logIn() {
+    const { name, surname, password } = this.state;
+    if (
+      name.length > 0 &&
+      surname.length > 0 &&
+      password.length > 0
+    ) {
+
+      $.ajax({
+        'type': 'GET',
+        'headers': {'Content-Type': 'application/json'},
+        'url': `https://heartbeat-heroku.herokuapp.com/login?name=${name}&lastName=${surname}&password=${password}`, 
+        'success': (res, status) => {
+          $.ajax({
+            'type': 'GET',
+            'headers': {'Content-Type': 'application/json'},
+            'url': `https://heartbeat-heroku.herokuapp.com/user?userId=${res.userId}`,
+            'success': (user, status) => {
+              this.props.loginUser(user);
+              this.setState({logIn: true});
+            },
+          })
+        },
+      })
     }
   }
 
@@ -17,6 +55,7 @@ export default class LogIn extends Component {
   render() {
     return (
       <div className="LogIn">
+        {this.renderRedirect()}
         <div className="Header">
           <img alt="" src={heart}/>
         </div>
@@ -53,7 +92,7 @@ export default class LogIn extends Component {
             />
           </div>
           <div className="buttonContainer">
-            <button className="loginButton">Prisijungti</button>
+            <button className="loginButton" onClick={this.logIn.bind(this)}>Prisijungti</button>
           </div>
           <div className="buttonContainer">
             <a href="/recover" className="button">Pamirsau slaptazodi</a>
@@ -66,3 +105,11 @@ export default class LogIn extends Component {
     )
   }
 }
+
+const mapStateToProps = (state, props) => {
+  return {
+    user: state.user
+  }
+};
+
+export default connect(mapStateToProps, { loginUser: login })(LogIn);
