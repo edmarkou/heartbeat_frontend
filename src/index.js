@@ -6,16 +6,22 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import userReducer from './reducers/userReducer';
 import ritmogramaReducer from './reducers/ritmogramaReducer';
-import { createStore, combineReducers } from 'redux';
+import allUsersReducer from './reducers/allUsersReducer';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 
 const allReducers = combineReducers({
   user: userReducer,
-  ritmograma: ritmogramaReducer
+  beats: ritmogramaReducer,
+  allUsers: allUsersReducer
 })
 
 const store = createStore(
   allReducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  compose(
+    applyMiddleware(thunk),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
 );
 
 ReactDOM.render(

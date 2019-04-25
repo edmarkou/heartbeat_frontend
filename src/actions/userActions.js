@@ -14,3 +14,17 @@ export function logout() {
     }
   }
 }
+
+export function attachUsers(users) {
+    return {
+      type: 'GETUSERS',
+      payload: users
+    }
+}
+
+export function attachExperts(users) {
+  return {
+    type: 'GETEXPERTS',
+    payload: users
+  }
+}

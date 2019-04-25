@@ -70,7 +70,7 @@ class Register extends Component {
   }
 
   createAccount() {
-    const { name, surname, password, expert } = this.state;
+    const { name, surname, password, expert, licenceNumber, experience } = this.state;
     if (this.isValid()) {
       const url = 'https://heartbeat-heroku.herokuapp.com/addUser';
       const data = JSON.stringify({
@@ -78,8 +78,8 @@ class Register extends Component {
         lastName: surname,
         password,
         userType: expert ? 'E' : 'U',
-        licenceNumber: null,
-        experience: null,
+        licenceNumber: licenceNumber,
+        experience: experience,
       });
       $.ajax({
         'type': 'POST',

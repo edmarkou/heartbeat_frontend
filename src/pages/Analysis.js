@@ -68,11 +68,11 @@ class Analysis extends Component {
           <img alt="" src={heart}/>
         </div>
         <div style={{textAlign: 'center', marginBottom: 20}}>
-          <span style={{fontSize: 20}}>{this.props.ritmograma.name}</span>
+          <span style={{fontSize: 20}}>{this.props.heartbeat.name}</span>
         </div>
         <div className="textContainer">
           <p className="analysisText">
-            {this.props.ritmograma.analysis}
+            {this.props.heartbeat.approovedAnalysis ? this.props.heartbeat.approovedAnalysis : ''}
           </p>
         </div>
         <div className="footer">
@@ -88,7 +88,7 @@ class Analysis extends Component {
 const mapStateToProps = (state, props) => {
   return {
     user: state.user,
-    ritmograma: state.ritmograma
+    heartbeat: state.beats.activeHeartbeat
   }
 };
 

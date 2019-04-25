@@ -1,0 +1,2 @@
+export const GETHEARTBEATS = 'GET_HEARTBEATS';
+export const GETHEARTBEAT = 'GET_HEARTBEAT';
