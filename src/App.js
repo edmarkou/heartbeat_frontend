@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Heartbeat from './pages/Heartbeat';
 import Messages from './pages/Messages';
 import Analysis from './pages/Analysis';
+import Analyze from './pages/Analyze';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/recover" exact component={RecoverPass}/>
         <Route path="/register" exact component={Register}/>
         <Route path="/login" exact component={LogIn}/>
+        <Route path="/analyze" exact component={Analyze}/>
       </Router>
     </div>
   );

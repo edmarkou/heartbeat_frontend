@@ -42,8 +42,12 @@ class LogIn extends Component {
             'headers': {'Content-Type': 'application/json'},
             'url': `https://heartbeat-heroku.herokuapp.com/user?userId=${res.userId}`,
             'success': (user, status) => {
-              this.props.loginUser(user);
-              this.setState({logIn: true});
+              if (user.userType === 'E' && !user.approved) {
+                console.log('forbidden');
+              } else {
+                this.props.loginUser(user);
+                this.setState({logIn: true});
+              }
             },
           })
         },

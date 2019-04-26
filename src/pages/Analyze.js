@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import './Analysis.css';
+import './Analyze.css';
 import heart from '../assets/images/heart.png';
 import message from '../assets/images/message.png';
 import { connect } from 'react-redux';
 import { logout } from '../actions/userActions';
-import { attachHeartbeats, attachSelectedHeartbeat } from '../actions/heartbeatActions';
+import $ from 'jquery';
 
 class Analysis extends Component {
   constructor(props){
@@ -15,7 +15,24 @@ class Analysis extends Component {
       loggedIn: this.checkStatus(),
       goHome: false,
       goToMessages: false,
+      input: this.getAnalysis()
     }
+  }
+
+  getAnalysis() {
+    return this.props.heartbeat.pendingAnalysis ? this.props.heartbeat.pendingAnalysis : '';
+  }
+
+  submitAnalysis() {
+    $.post(
+      'https://heartbeat-heroku.herokuapp.com/sendAnalysis', 
+      { 
+        'name': this.props.heartbeat.name,
+        'pendingAnalysis': this.state.input
+      }, 
+      (res, status) => {
+        this.setState({goHome: true});
+      });
   }
 
   checkStatus() {
@@ -59,13 +76,6 @@ class Analysis extends Component {
     }
   }
 
-  submitAnalysis() {
-    const heartbeats = this.props.heartbeats.filter(beat => beat.name !== this.props.heartbeat.name);
-    this.props.attachHeartbeats(heartbeats);
-    this.setState({goHome: true});
-    this.props.attachSelectedHeartbeat({});
-  }
-
   render() {
     return (
       <div>
@@ -79,15 +89,30 @@ class Analysis extends Component {
           <span style={{fontSize: 20}}>{this.props.heartbeat.name}</span>
         </div>
         <div className="textContainer">
+          <div style={{textAlign: 'center', marginBottom: 20, marginTop: 10}}>
+            <span>Approved analysis</span>
+          </div>
           <p className="analysisText">
-            {this.props.heartbeat.approovedAnalysis ? this.props.heartbeat.approovedAnalysis : ''}
+            {this.props.heartbeat.approovedAnalysis ? this.props.heartbeat.approovedAnalysis : '...'}
           </p>
         </div>
-        {this.props.user.userType === 'A' ? 
-          <div className="submitButtonContainer">
-            <button className="submitButton" onClick={this.submitAnalysis.bind(this)}>Patvirtinti</button>
-          </div> : null
-        }
+        <div className="textContainer">
+          <div style={{textAlign: 'center', marginBottom: 20, marginTop: 20}}>
+            <span>Pending analysis</span>
+          </div>
+          <div className="inputAnalysis">
+            <textarea 
+              style={{width: '100%'}}
+              cols="40" 
+              rows="5"
+              onChange={(e) => this.setState({input: e.target.value})} 
+              value={this.state.input}
+            />
+          </div>
+        </div>
+        <div className="submitButtonContainer">
+          <button className="submitButton" onClick={this.submitAnalysis.bind(this)}>Siusti</button>
+        </div>
         <div className="footer">
           <img onClick={this.navigateMessages.bind(this)} className="message" src={message} alt=""/>
           <button onClick={this.navigateHome.bind(this)} className="homeButton">Pagrindinis</button>
@@ -101,14 +126,8 @@ class Analysis extends Component {
 const mapStateToProps = (state, props) => {
   return {
     user: state.user,
-    heartbeat: state.beats.activeHeartbeat,
-    heartbeats: state.beats.heartbeats
+    heartbeat: state.beats.activeHeartbeat
   }
 };
 
-export default connect(mapStateToProps, 
-  {
-    logoutUser: logout, 
-    attachHeartbeats: attachHeartbeats,
-    attachSelectedHeartbeat: attachSelectedHeartbeat
-  })(Analysis);
+export default connect(mapStateToProps, {logoutUser: logout})(Analysis);

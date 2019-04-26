@@ -18,6 +18,7 @@ class Heartbeat extends Component {
       loggedIn: this.checkStatus(),
       goToMessages: false,
       goToAnalysis: false,
+      goToAnalyze: false,
       selected: 0,
       heartbeatData: []
     }
@@ -31,9 +32,15 @@ class Heartbeat extends Component {
       $.get('https://heartbeat-heroku.herokuapp.com/getAllNotApprovedExperts', (users, status) => { 
         this.props.attachExperts(users);
       });
+      $.get(`https://heartbeat-heroku.herokuapp.com/getAllPendingAnalysis`, (heartbeats, status) => {
+        this.props.attachHeartbeats(heartbeats);
+      });
     } else if (this.props.user.userType === 'U') {
-      $.get(`https://heartbeat-heroku.herokuapp.com/heartbeat?userId=${this.props.user.id}`, (heartbeats, status) => { 
-        console.log(heartbeats);
+      $.get(`https://heartbeat-heroku.herokuapp.com/heartbeat?userId=${this.props.user.id}`, (heartbeats, status) => {
+        this.props.attachHeartbeats(heartbeats);
+      });
+    } else if (this.props.user.userType === 'E') {
+      $.get(`https://heartbeat-heroku.herokuapp.com/getAllHeartbeats`, (heartbeats, status) => {
         this.props.attachHeartbeats(heartbeats);
       });
     }
@@ -72,6 +79,12 @@ class Heartbeat extends Component {
   redirectAnalysis = () => {
     if (this.state.goToAnalysis) {
       return <Redirect to='/analysis' />
+    }
+  }
+
+  redirectAnalyze() {
+    if (this.state.goToAnalyze) {
+      return <Redirect to='/analyze' />
     }
   }
 
@@ -131,19 +144,27 @@ class Heartbeat extends Component {
   }
 
   uploadFile() {
+    const data = {
+      userId: this.props.user.id,
+      heartbeatData: this.state.heartbeatData,
+      name: `${this.props.user.name} ${this.props.user.lastName} (${Math.floor(Math.random() * 1000)})`
+    }
     $.ajax({
       'type': 'POST',
       'headers': {'Content-Type': 'application/json'},
       'url': 'https://heartbeat-heroku.herokuapp.com/addHeartbeat', 
-      'data': JSON.stringify({
-        userId: this.props.user.id,
-        heartbeatData: this.state.heartbeatData,
-        name: `${this.props.user.name} ${this.props.user.lastName} (${Math.floor(Math.random() * 1000)})`
-      }),
+      'data': JSON.stringify(data),
       'success': (res, status) => {
+        const array = [data, ...this.props.beats.heartbeats];
+        this.props.attachHeartbeats(array);
         this.setState({heartbeatData: []});
       }
     });
+  }
+
+  doAnalysis() {
+    this.props.attachSelectedHeartbeat(this.props.beats.heartbeats[this.state.selected]);
+    this.setState({goToAnalyze: true});
   }
 
   getBeats(data) {
@@ -163,7 +184,7 @@ class Heartbeat extends Component {
             style={this.state.clicked === 'ritmograma' ? {color: '#fff', backgroundColor: '#000'} : null}
             onClick={() => this.setState({clicked: 'ritmograma'})}
           >
-            Perziureti ritmogramu istorija
+            Perziureti ritmogramas
           </span>
         </div>
       )
@@ -270,7 +291,7 @@ class Heartbeat extends Component {
                 />
               </div>
               <button className="analizeButton" onClick={this.navigateAnalysis.bind(this)}>Ritmogramos analize</button>
-              {this.props.user.userType === 'E' ? <button className="analizeButton">Atlikti ritmogramos analize</button> : null}
+              {this.props.user.userType === 'E' ? <button className="analizeButton" onClick={this.doAnalysis.bind(this)}>Atlikti ritmogramos analize</button> : null}
             </div> : null
           }
         </div>
@@ -424,6 +445,7 @@ class Heartbeat extends Component {
       <div>
         {this.redirectMessages()}
         {this.redirectAnalysis()}
+        {this.redirectAnalyze()}
         <div className="Header" style={{paddingTop: 50}}>
           <img alt="" src={heart}/>
         </div>
